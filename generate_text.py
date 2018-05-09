@@ -18,7 +18,7 @@ from keras.models import load_model
 import time
 
 
-
+from train import words_to_code,code_to_words
 
 def generate_test():
     sentence='His room, a proper human'
