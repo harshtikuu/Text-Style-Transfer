@@ -16,9 +16,20 @@ to generate text in the style of training data.
 
 from keras.models import load_model
 import time
+import numpy as np
+
+file=open('kafka.txt')
+string=file.read()
+words=string.split()
+
+sentences=[words[i:i+5] for i in range(25000)]
+targets=[words[i+5] for i in range(25000)]
 
 
-from train import words_to_code,code_to_words
+vocab=list(set(words))
+
+words_to_code=dict((i,j) for j,i in enumerate(vocab))
+code_to_words=dict((i,j) for i,j in enumerate(vocab))
 
 def generate_test():
     sentence='His room, a proper human'

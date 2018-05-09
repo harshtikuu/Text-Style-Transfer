@@ -14,7 +14,7 @@ from keras.layers import Dense,LSTM,Embedding
 from keras.utils import to_categorical
 from keras.models import Sequential
 import numpy as np
-from gensim.models import Word2Vec
+#from gensim.models import Word2Vec
 from keras.preprocessing.text import one_hot
 from keras.preprocessing.sequence import pad_sequences
 from keras.models import load_model
@@ -31,12 +31,12 @@ args=parser.parse_args()
 
  
 
-file=open(filepath)
+file=open(args.filepath)
 string=file.read()
 words=string.split()
 
-sentences=[words[i:i+5] for i in range(len(string)-5)]
-targets=[words[i+5] for i in range(len(string)-5)]
+sentences=[words[i:i+5] for i in range(25000)]
+targets=[words[i+5] for i in range(25000)]
 
 
 vocab=list(set(words))
@@ -63,8 +63,8 @@ model.add(LSTM(40,dropout=0.3))
 model.add(Dense(len(vocab),activation='softmax'))
 model.compile(loss='categorical_crossentropy',optimizer='adam',metrics=['acc'])
 
-history=model.fit(X_train,Y_train,epochs=epochs,validation_data=(X_test,Y_test))
-
+history=model.fit(X_train,Y_train,epochs=args.epochs,validation_data=(X_test,Y_test))
+model.save('newtextmodel.h5')
 
 plt.plot(history.history['loss'])
 plt.show()
